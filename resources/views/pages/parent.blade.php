@@ -12,7 +12,13 @@
     <title>@yield('title')</title>
 </head>
 <body>
-@yield('navbar')
+@include('pages.navbar', [
+    'links' => [
+        'Main' => route('main'),
+        'Contact Us' => route('contact-us'),
+        'Show Page' => route('show-page', [ 'id' => 13 ])
+    ]
+])
     <div class="container">
         @yield('content')
     </div>

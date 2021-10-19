@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PagesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [ PagesController::class, 'index'])->name('main');
+Route::get('/contact-us', [ PagesController::class, 'contactus'])->name('contact-us');
+Route::get('/show-page/{id}', [ PagesController::class, 'show_page'])->name('show-page');
+/*
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,6 +45,7 @@ Route::prefix('admin')->group(function (){
         return "Editing the admin = $id";
     });
 });
+*/
 
 Auth::routes();
 
