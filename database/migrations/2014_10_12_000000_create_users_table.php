@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('contact_num');
             $table->string('alt_contact_num');
-            $table->string('avatar');
+            $table->string('avatar')->default('default.png');
             $table->enum('type', ['ADMIN', 'USER']);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
