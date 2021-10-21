@@ -23,6 +23,23 @@
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
+                @if (Auth::user()->type == 'ADMIN')
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" name="status" id="status">
+                        @foreach (['PENDING', 'REVIEWED','CLOSED'] as $v)
+                            <option value="{{$v}}"
+                                @if ($v == $feedback->status)
+                                    selected
+                                @endif
+                            >{{ $v }}</option>
+                        @endforeach
+                    </select>
+                    @error('body')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+                </div>
+                @endif
                 <button class="btn btn-primary" type="submit">Save</button>
                 <a class="btn btn-secondary" href="{{ route('feedback') }}">Cancel</a>
             </form>

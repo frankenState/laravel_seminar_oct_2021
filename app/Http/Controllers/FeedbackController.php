@@ -62,7 +62,6 @@ class FeedbackController extends Controller
             'body' => 'required'
         ]);
 
-
         $feedback = Feedback::findOrFail($request->feedback_id);
         $user = Auth::user();
 
@@ -72,7 +71,9 @@ class FeedbackController extends Controller
                 'message' => "You do not have the privilege to modify this feedback."
             ]);
 
-        
+        if ($request->has('status'))
+            $feedback->status = $request->status;
+
         $feedback->title = $request->title;
         $feedback->body = $request->body;
         $feedback->save();
