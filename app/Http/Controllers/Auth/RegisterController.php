@@ -77,7 +77,7 @@ class RegisterController extends Controller
         
         $request = request();
         $avatar = "{$data['email']}.{$request->avatar->extension()}";
-        $result = $request->avatar->storeAs('avatars', $avatar);
+        $result = $request->avatar->storeAs('public/avatars', $avatar);
         dd($result);
 
         return User::create([

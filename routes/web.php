@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FeedbackController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +15,7 @@ use App\Http\Controllers\PagesController;
 |
 */
 
-Route::get('/', [ PagesController::class, 'index'])->name('main');
+// Route::get('/', [ PagesController::class, 'index'])->name('main');
 Route::get('/contact-us', [ PagesController::class, 'contactus'])->name('contact-us');
 Route::get('/show-page/{id}', [ PagesController::class, 'show_page'])->name('show-page');
 /*
@@ -49,4 +51,22 @@ Route::prefix('admin')->group(function (){
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [UserController::class, 'index'])->name('home');
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+Route::post('/update-profile', [UserController::class, 'update'])->name('update-profile');
+
+
+Route::prefix('feedback')->group(function () {
+    Route::get('/', [FeedbackController::class, 'index'])->name('feedback');
+    Route::get('/new', [FeedbackController::class, 'create'])->name('feedback.create');
+
+    Route::get('/show/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
+
+    Route::get('/edit/{id}', [FeedbackController::class, 'edit'])->name('feedback.edit');
+
+    Route::post('/save', [FeedbackController::class, 'save'])->name('feedback.save');
+
+    Route::post('/update', [FeedbackController::class, 'update'])->name('feedback.update');
+    
+    Route::get('/delete/{id}', [FeedbackController::class, 'delete'])->name('feedback.delete');
+});
