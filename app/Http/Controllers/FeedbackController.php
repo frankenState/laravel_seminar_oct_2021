@@ -42,5 +42,64 @@ class FeedbackController extends Controller
         ]);
     }
 
+    public function show($id){
+        Feedback::findOrFail($id);
+        $feedback = Feedback::with('user')->where('id', $id)->first();
+
+        return view('feedback.show' , ['feedback' => $feedback]);
+    }
+
+    public function edit($id){
+        $feedback = Feedback::findOrFail($id);
+
+        return view('feedback.edit', ['feedback' => $feedback]);
+    }
+
+    public function update(Request $request){
+        $request->validate([
+            'feedback_id' => 'required',
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+
+        $feedback = Feedback::findOrFail($request->feedback_id);
+        $user = Auth::user();
+
+        if ($user->id != $feedback->user_id && $user->type == 'USER')
+            return redirect()->route('feedback')->with('status', [
+                'class' => 'danger',
+                'message' => "You do not have the privilege to modify this feedback."
+            ]);
+
+        
+        $feedback->title = $request->title;
+        $feedback->body = $request->body;
+        $feedback->save();
+
+        return redirect()->route('feedback')->with('status', [
+            'class' => 'success',
+            'message' => 'The feedback was updated successfully.'
+        ]);
+    }
+
+    public function delete($id){
+        $feedback = Feedback::findOrFail($id);
+
+        $user = Auth::user();
+        if ($user->id != $feedback->user_id && $user->type == 'USER')
+            return redirect()->route('feedback')->with('status', [
+                'class' => 'danger',
+                'message' => "You do not have the privilege to modify this feedback."
+            ]);
+
+        $feedback->delete();
+
+        return redirect()->route('feedback')->with('status', [
+            'class' => 'success',
+            'message' => 'Feedback is deleted successfully.'
+        ]);
+    }
+
 
 }
